@@ -3,33 +3,22 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
-       xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
-		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- property를 참고로 hikariConfig라는 bean이 생성된다. -->
-    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
-        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/web0315"></property>
-        <property name="username" value="root"></property>
-        <property name="password" value="1234"></property>
+    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig" >
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/web0315" />
+        <property name="username" value="root" />
+        <property name="password" value="1234" />
     </bean>
 
-    <!-- 위에서 hikariConfig라는 bean을 참고로 해서 DataSource라는 bean 생성된다. -->
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
-        <!-- hikariConfig라는 객체를 참고하라는 것 -->
-        <constructor-arg ref="hikariConfig"/>
+        <constructor-arg ref="hikariConfig" />
     </bean>
 
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-
-    <mybatis-spring:scan base-package="com.example.mapper" />
-    <!-- Root Context: defines shared resources visible to all other web components -->
-    <!-- 어디서 scan하면 니가 주입할 객체들을 찾을 수 있는지 알려주는 것 -->
-    <context:component-scan base-package="com.example.sample"/>
-    <!-- Root Context: defines shared resources visible to all other web components -->
-
+    <context:component-scan base-package="com.example.controller" />
 </beans>
